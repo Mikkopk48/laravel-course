@@ -47,6 +47,7 @@ class BackendController extends Controller
     {
         if (isset($this->names[$id])) {
             unset($this->names[$id]);
+            return response()->json(['message' => 'Persona eliminada']);
         }
         return response()->json(["error" => "Persona no existente"], Response::HTTP_NOT_FOUND);
     }
