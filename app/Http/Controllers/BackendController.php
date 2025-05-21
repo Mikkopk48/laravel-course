@@ -34,4 +34,20 @@ class BackendController extends Controller
         $this->names[$person["id"]] = $person;
         return response()->json(["message" => "Persona creada", "person" => $person], 201);
     }
+    public function update(Request $request, $id)
+    {
+        if (isset($this->names[$id])) {
+            $this->names[$id]["name"] = $request->input("name", "falcon");
+            $this->names[$id]["age"] = $request->input("age");
+            return response()->json(['message' => 'Persona actualizada', 'person' => $this->names[$id]]);
+        }
+        return response()->json(["error" => "Nombre no existe"], Response::HTTP_NOT_FOUND);
+    }
+    public function delete(int $id)
+    {
+        if (isset($this->names[$id])) {
+            unset($this->names[$id]);
+        }
+        return response()->json(["error" => "Persona no existente"], Response::HTTP_NOT_FOUND);
+    }
 }
