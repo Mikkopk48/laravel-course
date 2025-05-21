@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class BackendController extends Controller
 {
@@ -17,10 +19,19 @@ class BackendController extends Controller
     }
     public function get(int $id = 0)
     {
-        return response()->json([
-            'id' => $id,
-            'seccess' => true,
-            'message' => 'Hola',
-        ]);
+        if (isset($this->names[$id])) {
+            return response()->json();
+        }
+        return response()->json(["error" => "Nombre no existe"], Response::HTTP_NOT_FOUND);
+    }
+    public function create(Request $request)
+    {
+        $person = [
+            "id" => count($this->names) + 1,
+            "name" => $request->input("name"),
+            "age" => $request->input("age"),
+        ];
+        $this->names[$person["id"]] = $person;
+        return response()->json(["message" => "Persona creada", "person" => $person], 201);
     }
 }

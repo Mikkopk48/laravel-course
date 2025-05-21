@@ -9,3 +9,5 @@ Route::get("/test", function () {
 Route::get("/backend", [BackendController::class, 'getAll']);
 
 Route::get("/backend/{id?}", [BackendController::class, 'get']);
+
+Route::post("/backend", [BackendController::class, 'create']);
